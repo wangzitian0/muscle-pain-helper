@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  verify:
+    name: Verify Manifest & Hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate manifest and tracked files
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, pathlib
+
+          manifest_path = pathlib.Path(".ws-publish/manifest.json")
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          outputs = manifest.get("outputs", {})
+          assert outputs, "manifest.json must declare rendered outputs"
+          for rel, expected_sha in outputs.items():
+              target = pathlib.Path(rel)
+              assert target.is_file(), f"missing rendered file: {rel}"
+              actual_sha = hashlib.sha256(target.read_bytes()).hexdigest()
+              assert actual_sha == expected_sha, f"drift in {rel}: {actual_sha} != {expected_sha}"
+          print(f"Verified {len(outputs)} manifest-tracked file(s).")
+          PY
