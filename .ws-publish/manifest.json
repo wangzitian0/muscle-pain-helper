@@ -3,17 +3,17 @@
   "dirty_inputs": [],
   "inputs": {
     "repo": "77d55ecfbb9107d6383c784f6edb9b389cccef36be596edee625379f40d3f467",
-    "root": "7ea88d0b0ecb7c91631c4215b932eedda6d3457f39f6b3e5a68327d70cbeb0a5"
+    "root": "c82f79a2115f354997d812b96c8a3244e6cf01b118667891f92eef4cd61d0666"
   },
   "language": "en",
   "outputs": {
-    "AGENTS.md": "a9921b8171f278047cd2fa6b0589989346a8a9582436f79f750239e908741db9"
+    "AGENTS.md": "ee4215037660cccac3d1114bc45ad90206ac0fd49dd19d4ac3a5a7ccecd2478d"
   },
   "profiles": [
     "code"
   ],
   "schema": 2,
-  "source_revision": "e7dc248cb573521d04ce1a60d08fb00f49f09270",
+  "source_revision": "0be34de563f569d523e3fc15c299a0cdf9bcb529",
   "target": {
     "remote": "github.com/wangzitian0/muscle-pain-helper",
     "repo": "muscle-pain-helper",
